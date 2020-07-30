@@ -45,3 +45,5 @@ RUN printf "\nexport CC=clang\nexport CXX=clang++\n" >> ~/.profile
 RUN cd /root/$project_name/ && mkdir build && cd build && conan install .. -s compiler=clang -s compiler.version=10 -s compiler.libcxx=libstdc++ --build=missing && cmake ..
 
 RUN cd /root/$project_name && ln -s `find ~/.conan/ -name compare.py | head -n1`
+
+WORKDIR /root/$project_name

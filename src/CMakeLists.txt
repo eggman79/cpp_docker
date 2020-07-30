@@ -1,5 +1,5 @@
 project($project_name_main)
-
+include(../cmake/Common.inc)
 set(files example_class.cpp)
 
 macro(add_lib_with_deps name)
@@ -13,12 +13,17 @@ endmacro()
 add_lib_with_deps("main")
 add_lib_with_deps("main_test")
 
-if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang AND $project_name_test_with_prof)
-    target_compile_options($project_name_main_test PUBLIC -fprofile-instr-generate -fcoverage-mapping)
-    target_link_options($project_name_main_test PUBLIC -fprofile-instr-generate -fcoverage-mapping)
+if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+    add_lib_with_deps("main_test_coverage")
+    add_lib_with_deps("main_test_thread_sanitizer")
+    add_lib_with_deps("main_test_address_sanitizer")
 endif()
 
-target_compile_options($project_name_main_test PUBLIC -fsanitize=undefined)
+if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+    comp_and_link_opts($project_name_main_test_coverage -fprofile-instr-generate -fcoverage-mapping)
+    comp_and_link_opts($project_name_main_test_thread_sanitizer -fsanitize=thread)
+    comp_and_link_opts($project_name_main_test_address_sanitizer -fsanitize=address)
+endif()
 
 add_executable($project_name main.cpp)
 target_link_libraries($project_name $project_name::main)
