@@ -39,6 +39,13 @@ if [ $all == 1 ]; then
         cat "$log_dir/thread_sanitizer.log"
         exit -2;
     fi
+
+    valgrind_errors=`cat "$log_dir/valgrind.log" | grep -E 'ERROR SUMMARY: [1-9]'`
+
+    if [ "$valgrind_errors" != "" ]; then
+        cat "$log_dir/valgrind.log"
+        exit -3;
+    fi
 fi
 
 "$test_bin"
