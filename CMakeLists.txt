@@ -8,4 +8,6 @@ option($project_name_test_with_prof "Enable profiling and coverage report analys
 
 add_subdirectory(src)
 add_subdirectory(bench)
+
+enable_testing()
 add_subdirectory(test)

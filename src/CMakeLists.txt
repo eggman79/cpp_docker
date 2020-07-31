@@ -20,9 +20,10 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
 endif()
 
 if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
-    comp_and_link_opts($project_name_main_test_coverage -fprofile-instr-generate -fcoverage-mapping)
-    comp_and_link_opts($project_name_main_test_thread_sanitizer -fsanitize=thread)
-    comp_and_link_opts($project_name_main_test_address_sanitizer -fsanitize=address)
+    comp_and_link_opts(main_test_coverage -fprofile-instr-generate)
+    comp_and_link_opts(main_test_coverage -fcoverage-mapping)
+    comp_and_link_opts(main_test_thread_sanitizer -fsanitize=thread)
+    comp_and_link_opts(main_test_address_sanitizer -fsanitize=address)
 endif()
 
 add_executable($project_name main.cpp)

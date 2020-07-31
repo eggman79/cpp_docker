@@ -39,7 +39,8 @@ RUN cd /root/$project_name && sed -iE "s/\$project_name/$project_name/g" \
     src/CMakeLists.txt \
     bench/CMakeLists.txt \
     test/CMakeLists.txt \
-    scripts/run_test_coverage.sh
+    cmake/Common.inc \
+    scripts/run_tests.sh
 
 RUN printf "\nexport CC=clang\nexport CXX=clang++\n" >> ~/.profile
 RUN cd /root/$project_name/ && mkdir build && cd build && conan install .. -s compiler=clang -s compiler.version=10 -s compiler.libcxx=libstdc++ --build=missing && cmake ..
